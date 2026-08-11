@@ -1,4 +1,5 @@
 import { formatMatchDate, getMatchMonth, getMatchRsvpUrl, matches, team } from "@/lib/schedule";
+import { roster } from "@/lib/team";
 
 function TeamMark() {
   return <div className="team-mark">{team.shortName}</div>;
@@ -104,18 +105,28 @@ export default function Home() {
       </section>
 
       <section className="team-section" id="team">
-        <div className="shell team-grid">
-          <div>
-            <p className="eyebrow">THE TEAM</p>
-            <h2>Good games<br /><em>start here.</em></h2>
-          </div>
-          <div className="team-copy">
-            <p>This is our home base for the season. Keep it bookmarked for match times, field details, and quick availability check-ins.</p>
-            <div className="team-stats">
-              <div><strong>{matches.length}</strong><span>matches ahead</span></div>
-              <div><strong>11</strong><span>players on field</span></div>
-              <div><strong>01</strong><span>team, all in</span></div>
+        <div className="shell">
+          <div className="team-grid">
+            <div>
+              <p className="eyebrow">THE TEAM</p>
+              <h2>Good games<br /><em>start here.</em></h2>
             </div>
+            <div className="team-copy">
+              <p>This is our home base for the season. Keep it bookmarked for match times, field details, and quick availability check-ins.</p>
+              <div className="team-stats">
+                <div><strong>{matches.length}</strong><span>matches ahead</span></div>
+                <div><strong>11</strong><span>players on field</span></div>
+                <div><strong>01</strong><span>team, all in</span></div>
+              </div>
+            </div>
+          </div>
+          <div className="team-collage" aria-label="Real Sosobad player photos">
+            {roster.map((player) => (
+              <figure className="player-tile" key={player.name}>
+                <img src={player.photo} alt={player.name} loading="lazy" />
+                <figcaption>{player.name}</figcaption>
+              </figure>
+            ))}
           </div>
         </div>
       </section>
