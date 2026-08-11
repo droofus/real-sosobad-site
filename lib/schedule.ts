@@ -8,6 +8,10 @@ export type Match = {
   home: boolean;
   mapUrl: string;
   rsvpUrl?: string;
+  result?: {
+    team: number;
+    opponent: number;
+  };
 };
 
 export const team = {
@@ -41,6 +45,17 @@ export function getMatchRsvpUrl(match: Match) {
 }
 
 export const matches: Match[] = [
+  {
+    id: "warriors-vs-real-sosobad",
+    date: "2026-08-09",
+    time: "5:00 PM",
+    opponent: "WARRIORS",
+    venue: "Highnoon",
+    field: "Field 1",
+    home: false,
+    mapUrl: "https://www.google.com/maps/search/?api=1&query=Highnoon+Soccer+Complex%2C+2004+Bruins+Ln%2C+Las+Cruces%2C+NM+88007",
+    result: { team: 6, opponent: 2 },
+  },
   {
     id: "real-sosobad-vs-stallions",
     date: "2026-08-18",

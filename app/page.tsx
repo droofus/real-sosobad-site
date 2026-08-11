@@ -6,10 +6,10 @@ function TeamMark() {
 }
 
 function MatchCard({ match, isNext }: { match: (typeof matches)[number]; isNext: boolean }) {
-  const responseUrl = match.rsvpUrl ?? getMatchRsvpUrl(match);
+  const responseUrl = match.result ? undefined : match.rsvpUrl ?? getMatchRsvpUrl(match);
 
   return (
-    <article className={`match-card ${isNext ? "next-match" : ""}`}>
+    <article className={`match-card ${isNext ? "next-match" : ""} ${match.result ? "completed-match" : ""}`}>
       <div className="match-date">
         <span>{formatMatchDate(match.date).split(" ")[0]}</span>
         <strong>{new Date(`${match.date}T12:00:00`).getDate()}</strong>
@@ -18,7 +18,7 @@ function MatchCard({ match, isNext }: { match: (typeof matches)[number]; isNext:
 
       <div className="match-main">
         <div className="match-kicker">
-          {isNext ? <span className="next-pill">NEXT MATCH</span> : <span>{match.home ? "HOME MATCH" : "AWAY MATCH"}</span>}
+          {match.result ? <span className="final-pill">FINAL</span> : isNext ? <span className="next-pill">NEXT MATCH</span> : <span>{match.home ? "HOME MATCH" : "AWAY MATCH"}</span>}
           <span>{match.time}</span>
         </div>
         <h3>{match.home ? team.name : match.opponent}</h3>
@@ -33,24 +33,32 @@ function MatchCard({ match, isNext }: { match: (typeof matches)[number]; isNext:
           <span>{match.venue} · {match.field}</span>
           <a href={match.mapUrl} target="_blank" rel="noreferrer">Map ↗</a>
         </div>
+        {match.result && (
+          <div className="result-line">
+            <span>RESULT</span>
+            <strong>{team.name} {match.result.team} – {match.result.opponent} {match.opponent}</strong>
+            <b className={match.result.team > match.result.opponent ? "result-win" : "result-loss"}>
+              {match.result.team > match.result.opponent ? "WIN" : match.result.team === match.result.opponent ? "DRAW" : "LOSS"}
+            </b>
+          </div>
+        )}
       </div>
 
-      <div className="rsvp-area">
-        {responseUrl ? (
+      {responseUrl && (
+        <div className="rsvp-area">
           <a className="rsvp-button" href={responseUrl} target="_blank" rel="noreferrer">
             RSVP for this match <span>↗</span>
           </a>
-        ) : (
-          <span className="rsvp-button disabled">RSVP link coming soon</span>
-        )}
-        <span className="rsvp-note">Takes about 10 seconds</span>
-      </div>
+          <span className="rsvp-note">Takes about 10 seconds</span>
+        </div>
+      )}
     </article>
   );
 }
 
 export default function Home() {
   const months = [...new Set(matches.map((match) => getMatchMonth(match.date)))];
+  const upcomingMatches = matches.filter((match) => !match.result);
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const nextMatch = matches.find((match) => new Date(`${match.date}T12:00:00`) >= today);
@@ -87,9 +95,9 @@ export default function Home() {
         <div className="section-heading">
           <div>
             <p className="eyebrow">THE FIXTURES</p>
-            <h2>Upcoming matches</h2>
+            <h2>Schedule &amp; results</h2>
           </div>
-          <p className="section-note">Please RSVP for every match<br />so we know who&apos;s making it.</p>
+          <p className="section-note">Please RSVP for every upcoming match<br />so we know who&apos;s making it.</p>
         </div>
 
         {months.map((month) => (
@@ -114,7 +122,7 @@ export default function Home() {
             <div className="team-copy">
               <p>This is our home base for the season. Keep it bookmarked for match times, field details, and quick availability check-ins.</p>
               <div className="team-stats">
-                <div><strong>{matches.length}</strong><span>matches ahead</span></div>
+                <div><strong>{upcomingMatches.length}</strong><span>matches ahead</span></div>
                 <div><strong>11</strong><span>players on field</span></div>
                 <div><strong>01</strong><span>team, all in</span></div>
               </div>
