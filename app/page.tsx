@@ -1,11 +1,11 @@
-import { formatMatchDate, getMatchMonth, matches, rsvpUrl, team } from "@/lib/schedule";
+import { formatMatchDate, getMatchMonth, getMatchRsvpUrl, matches, team } from "@/lib/schedule";
 
 function TeamMark() {
   return <div className="team-mark">{team.shortName}</div>;
 }
 
 function MatchCard({ match, isNext }: { match: (typeof matches)[number]; isNext: boolean }) {
-  const responseUrl = match.rsvpUrl ?? rsvpUrl;
+  const responseUrl = match.rsvpUrl ?? getMatchRsvpUrl(match);
 
   return (
     <article className={`match-card ${isNext ? "next-match" : ""}`}>

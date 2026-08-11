@@ -10,9 +10,6 @@ export type Match = {
   rsvpUrl?: string;
 };
 
-/**
- * For each match, paste the Google Form URL into rsvpUrl when the form is ready.
- */
 export const team = {
   name: "Real Sosobad",
   shortName: "RS",
@@ -21,7 +18,27 @@ export const team = {
   colors: ["#e8ff63", "#12251f"],
 };
 
-export const rsvpUrl = "https://docs.google.com/forms/d/e/1FAIpQLSehvf9RUzwqz8c2lWxDxqe21RITHrYvsIv_8xFXL9s7XpO4qQ/viewform?usp=publish-editor";
+export const rsvpUrl = "https://docs.google.com/forms/d/e/1FAIpQLSehvf9RUzwqz8c2lWxDxqe21RITHrYvsIv_8xFXL9s7XpO4qQ/viewform";
+
+const rsvpMatchField = "entry.207435959";
+
+function formatRSVPDate(date: string) {
+  return new Intl.DateTimeFormat("en-US", {
+    weekday: "long",
+    month: "short",
+    day: "numeric",
+  }).format(new Date(`${date}T12:00:00`));
+}
+
+export function getMatchRsvpUrl(match: Match) {
+  const url = new URL(rsvpUrl);
+  url.searchParams.set("usp", "pp_url");
+  url.searchParams.set(
+    rsvpMatchField,
+    `${formatRSVPDate(match.date)} · ${match.time} · ${match.field} · ${match.venue} · ${match.opponent}`,
+  );
+  return url.toString();
+}
 
 export const matches: Match[] = [
   {
