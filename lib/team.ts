@@ -3,6 +3,7 @@ export const roster = [
   { name: "Luc Marceaux", photo: "/team-photos/luc-marceaux.jpg" },
   { name: "Richard Maltby", photo: "/team-photos/richard-maltby.jpg" },
   { name: "Lazaro Tiqui", photo: "/team-photos/lazaro-tiqui.jpg" },
+  { name: "Drew Hunt", photo: "/team-photos/drew-hunt.png" },
   { name: "Nathan Leupold", photo: "/team-photos/nathan-leupold.jpg" },
   { name: "Chris Kennedy", photo: "/team-photos/chris-kennedy.jpg" },
   { name: "Luke Biel", photo: "/team-photos/luke-biel.jpg" },
