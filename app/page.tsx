@@ -72,6 +72,7 @@ export default function Home() {
         </a>
         <div className="nav-links">
           <a href="#schedule">Schedule</a>
+          <a href="/results">Results</a>
           <a href="#team">Team info</a>
           <a className="nav-cta" href="#schedule">View schedule <span>↓</span></a>
         </div>
